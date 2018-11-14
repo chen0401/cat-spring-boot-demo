@@ -1,0 +1,1138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chen.cat.dao.CustomerMapper">
+  <resultMap id="BaseResultMap" type="com.chen.cat.bean.Customer">
+    <id column="customer_id" jdbcType="INTEGER" property="customerId" />
+    <result column="corp_sync_secret" jdbcType="VARCHAR" property="corpSyncSecret" />
+    <result column="customer_name" jdbcType="VARCHAR" property="customerName" />
+    <result column="domain" jdbcType="VARCHAR" property="domain" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="user_number" jdbcType="INTEGER" property="userNumber" />
+    <result column="province" jdbcType="VARCHAR" property="province" />
+    <result column="city" jdbcType="VARCHAR" property="city" />
+    <result column="customer_root" jdbcType="VARCHAR" property="customerRoot" />
+    <result column="add_time" jdbcType="TIMESTAMP" property="addTime" />
+    <result column="offset_map_y" jdbcType="DECIMAL" property="offsetMapY" />
+    <result column="offset_map_x" jdbcType="DECIMAL" property="offsetMapX" />
+    <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
+    <result column="server_number" jdbcType="VARCHAR" property="serverNumber" />
+    <result column="export_ips" jdbcType="VARCHAR" property="exportIps" />
+    <result column="pinyin" jdbcType="VARCHAR" property="pinyin" />
+    <result column="url_crash_upload" jdbcType="VARCHAR" property="urlCrashUpload" />
+    <result column="url_download" jdbcType="VARCHAR" property="urlDownload" />
+    <result column="url_main_server" jdbcType="VARCHAR" property="urlMainServer" />
+    <result column="url_upload" jdbcType="VARCHAR" property="urlUpload" />
+    <result column="client_number" jdbcType="VARCHAR" property="clientNumber" />
+    <result column="and_umeng_app_key" jdbcType="VARCHAR" property="andUmengAppKey" />
+    <result column="and_umeng_app_secret" jdbcType="VARCHAR" property="andUmengAppSecret" />
+    <result column="and_umeng_master_secret" jdbcType="VARCHAR" property="andUmengMasterSecret" />
+    <result column="ios_umeng_app_key" jdbcType="VARCHAR" property="iosUmengAppKey" />
+    <result column="ios_umeng_app_secret" jdbcType="VARCHAR" property="iosUmengAppSecret" />
+    <result column="ios_umeng_master_secret" jdbcType="VARCHAR" property="iosUmengMasterSecret" />
+    <result column="config_update_time" jdbcType="TIMESTAMP" property="configUpdateTime" />
+    <result column="ldap" jdbcType="VARCHAR" property="ldap" />
+    <result column="haveldap_flag" jdbcType="INTEGER" property="haveldapFlag" />
+    <result column="ldapServer" jdbcType="VARCHAR" property="ldapserver" />
+    <result column="icon_url" jdbcType="VARCHAR" property="iconUrl" />
+    <result column="describe" jdbcType="VARCHAR" property="describe" />
+    <result column="midd_server" jdbcType="VARCHAR" property="middServer" />
+    <result column="url_main_ser_for_ms" jdbcType="VARCHAR" property="urlMainSerForMs" />
+    <result column="oAuth" jdbcType="VARCHAR" property="oauth" />
+    <result column="memo" jdbcType="VARCHAR" property="memo" />
+    <result column="api_server" jdbcType="VARCHAR" property="apiServer" />
+    <result column="data_midd_server" jdbcType="VARCHAR" property="dataMiddServer" />
+    <result column="getui_app_id" jdbcType="VARCHAR" property="getuiAppId" />
+    <result column="getui_app_key" jdbcType="VARCHAR" property="getuiAppKey" />
+    <result column="getui_master_secret" jdbcType="VARCHAR" property="getuiMasterSecret" />
+    <result column="search_pinyin" jdbcType="VARCHAR" property="searchPinyin" />
+    <result column="school_num" jdbcType="VARCHAR" property="schoolNum" />
+    <result column="corpid" jdbcType="VARCHAR" property="corpid" />
+    <result column="corpsecret" jdbcType="VARCHAR" property="corpsecret" />
+    <result column="agentid" jdbcType="INTEGER" property="agentid" />
+    <result column="qqid" jdbcType="VARCHAR" property="qqid" />
+    <result column="qqsecret" jdbcType="VARCHAR" property="qqsecret" />
+    <result column="campuscard_bgd_img" jdbcType="VARCHAR" property="campuscardBgdImg" />
+    <result column="disclaimer_flag" jdbcType="INTEGER" property="disclaimerFlag" />
+    <result column="is_scores" jdbcType="INTEGER" property="isScores" />
+    <result column="is_probation" jdbcType="INTEGER" property="isProbation" />
+    <result column="ex_field" jdbcType="VARCHAR" property="exField" />
+    <result column="customized" jdbcType="INTEGER" property="customized" />
+    <result column="password_url" jdbcType="VARCHAR" property="passwordUrl" />
+    <result column="pwd_reset_url" jdbcType="VARCHAR" property="pwdResetUrl" />
+    <result column="supplement_doc_url" jdbcType="VARCHAR" property="supplementDocUrl" />
+    <result column="identity_photo_url" jdbcType="VARCHAR" property="identityPhotoUrl" />
+    <result column="app_config" jdbcType="VARCHAR" property="appConfig" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="sms_status" jdbcType="INTEGER" property="smsStatus" />
+    <result column="xiaomi_app_id" jdbcType="VARCHAR" property="xiaomiAppId" />
+    <result column="xiaomi_app_secret" jdbcType="VARCHAR" property="xiaomiAppSecret" />
+    <result column="huawei_app_id" jdbcType="VARCHAR" property="huaweiAppId" />
+    <result column="huawei_app_secret" jdbcType="VARCHAR" property="huaweiAppSecret" />
+    <result column="meizu_app_id" jdbcType="VARCHAR" property="meizuAppId" />
+    <result column="meizu_app_secret" jdbcType="VARCHAR" property="meizuAppSecret" />
+    <result column="network_status" jdbcType="INTEGER" property="networkStatus" />
+    <result column="address_book" jdbcType="VARCHAR" property="addressBook" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.chen.cat.bean.CustomerWithBLOBs">
+    <result column="corp_config" jdbcType="LONGVARCHAR" property="corpConfig" />
+    <result column="config" jdbcType="LONGVARCHAR" property="config" />
+    <result column="QRUrl" jdbcType="LONGVARCHAR" property="qrurl" />
+    <result column="disclaimer" jdbcType="LONGVARCHAR" property="disclaimer" />
+    <result column="auth_code_url" jdbcType="LONGVARCHAR" property="authCodeUrl" />
+    <result column="campuscard_bgd_img_new" jdbcType="LONGVARCHAR" property="campuscardBgdImgNew" />
+    <result column="filter_str" jdbcType="LONGVARCHAR" property="filterStr" />
+    <result column="memo_ex" jdbcType="LONGVARCHAR" property="memoEx" />
+    <result column="corp_type" jdbcType="LONGVARCHAR" property="corpType" />
+    <result column="corp_value" jdbcType="LONGVARCHAR" property="corpValue" />
+    <result column="config_text" jdbcType="LONGVARCHAR" property="configText" />
+    <result column="client_config" jdbcType="LONGVARCHAR" property="clientConfig" />
+    <result column="points_config" jdbcType="LONGVARCHAR" property="pointsConfig" />
+    <result column="ip_config" jdbcType="LONGVARCHAR" property="ipConfig" />
+    <result column="remark" jdbcType="LONGVARCHAR" property="remark" />
+    <result column="weixin_service_config" jdbcType="LONGVARCHAR" property="weixinServiceConfig" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    customer_id, corp_sync_secret, customer_name, `domain`, `type`, user_number, province,
+    city, customer_root, add_time, offset_map_y, offset_map_x, modify_time, server_number, 
+    export_ips, pinyin, url_crash_upload, url_download, url_main_server, url_upload, 
+    client_number, and_umeng_app_key, and_umeng_app_secret, and_umeng_master_secret, 
+    ios_umeng_app_key, ios_umeng_app_secret, ios_umeng_master_secret, config_update_time, 
+    ldap, haveldap_flag, ldapServer, icon_url, `describe`, midd_server, url_main_ser_for_ms,
+    oAuth, memo, api_server, data_midd_server, getui_app_id, getui_app_key, getui_master_secret, 
+    search_pinyin, school_num, corpid, corpsecret, agentid, qqid, qqsecret, campuscard_bgd_img, 
+    disclaimer_flag, is_scores, is_probation, ex_field, customized, password_url, pwd_reset_url, 
+    supplement_doc_url, identity_photo_url, app_config, url, sms_status, xiaomi_app_id, 
+    xiaomi_app_secret, huawei_app_id, huawei_app_secret, meizu_app_id, meizu_app_secret, 
+    network_status, address_book
+  </sql>
+  <sql id="Blob_Column_List">
+    corp_config, config, QRUrl, disclaimer, auth_code_url, campuscard_bgd_img_new, filter_str, 
+    memo_ex, corp_type, corp_value, config_text, client_config, points_config, ip_config, 
+    remark, weixin_service_config
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from customer
+    where customer_id = #{customerId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from customer
+    where customer_id = #{customerId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.chen.cat.bean.CustomerWithBLOBs">
+    insert into customer (customer_id, corp_sync_secret, customer_name, 
+      domain, type, user_number, 
+      province, city, customer_root, 
+      add_time, offset_map_y, offset_map_x, 
+      modify_time, server_number, export_ips, 
+      pinyin, url_crash_upload, url_download, 
+      url_main_server, url_upload, client_number, 
+      and_umeng_app_key, and_umeng_app_secret, and_umeng_master_secret, 
+      ios_umeng_app_key, ios_umeng_app_secret, ios_umeng_master_secret, 
+      config_update_time, ldap, haveldap_flag, 
+      ldapServer, icon_url, describe, 
+      midd_server, url_main_ser_for_ms, oAuth, 
+      memo, api_server, data_midd_server, 
+      getui_app_id, getui_app_key, getui_master_secret, 
+      search_pinyin, school_num, corpid, 
+      corpsecret, agentid, qqid, 
+      qqsecret, campuscard_bgd_img, disclaimer_flag, 
+      is_scores, is_probation, ex_field, 
+      customized, password_url, pwd_reset_url, 
+      supplement_doc_url, identity_photo_url, app_config, 
+      url, sms_status, xiaomi_app_id, 
+      xiaomi_app_secret, huawei_app_id, huawei_app_secret, 
+      meizu_app_id, meizu_app_secret, network_status, 
+      address_book, corp_config, config, 
+      QRUrl, disclaimer, auth_code_url, 
+      campuscard_bgd_img_new, filter_str, 
+      memo_ex, corp_type, corp_value, 
+      config_text, client_config, points_config, 
+      ip_config, remark, weixin_service_config
+      )
+    values (#{customerId,jdbcType=INTEGER}, #{corpSyncSecret,jdbcType=VARCHAR}, #{customerName,jdbcType=VARCHAR}, 
+      #{domain,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{userNumber,jdbcType=INTEGER}, 
+      #{province,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, #{customerRoot,jdbcType=VARCHAR}, 
+      #{addTime,jdbcType=TIMESTAMP}, #{offsetMapY,jdbcType=DECIMAL}, #{offsetMapX,jdbcType=DECIMAL}, 
+      #{modifyTime,jdbcType=TIMESTAMP}, #{serverNumber,jdbcType=VARCHAR}, #{exportIps,jdbcType=VARCHAR}, 
+      #{pinyin,jdbcType=VARCHAR}, #{urlCrashUpload,jdbcType=VARCHAR}, #{urlDownload,jdbcType=VARCHAR}, 
+      #{urlMainServer,jdbcType=VARCHAR}, #{urlUpload,jdbcType=VARCHAR}, #{clientNumber,jdbcType=VARCHAR}, 
+      #{andUmengAppKey,jdbcType=VARCHAR}, #{andUmengAppSecret,jdbcType=VARCHAR}, #{andUmengMasterSecret,jdbcType=VARCHAR}, 
+      #{iosUmengAppKey,jdbcType=VARCHAR}, #{iosUmengAppSecret,jdbcType=VARCHAR}, #{iosUmengMasterSecret,jdbcType=VARCHAR}, 
+      #{configUpdateTime,jdbcType=TIMESTAMP}, #{ldap,jdbcType=VARCHAR}, #{haveldapFlag,jdbcType=INTEGER}, 
+      #{ldapserver,jdbcType=VARCHAR}, #{iconUrl,jdbcType=VARCHAR}, #{describe,jdbcType=VARCHAR}, 
+      #{middServer,jdbcType=VARCHAR}, #{urlMainSerForMs,jdbcType=VARCHAR}, #{oauth,jdbcType=VARCHAR}, 
+      #{memo,jdbcType=VARCHAR}, #{apiServer,jdbcType=VARCHAR}, #{dataMiddServer,jdbcType=VARCHAR}, 
+      #{getuiAppId,jdbcType=VARCHAR}, #{getuiAppKey,jdbcType=VARCHAR}, #{getuiMasterSecret,jdbcType=VARCHAR}, 
+      #{searchPinyin,jdbcType=VARCHAR}, #{schoolNum,jdbcType=VARCHAR}, #{corpid,jdbcType=VARCHAR}, 
+      #{corpsecret,jdbcType=VARCHAR}, #{agentid,jdbcType=INTEGER}, #{qqid,jdbcType=VARCHAR}, 
+      #{qqsecret,jdbcType=VARCHAR}, #{campuscardBgdImg,jdbcType=VARCHAR}, #{disclaimerFlag,jdbcType=INTEGER}, 
+      #{isScores,jdbcType=INTEGER}, #{isProbation,jdbcType=INTEGER}, #{exField,jdbcType=VARCHAR}, 
+      #{customized,jdbcType=INTEGER}, #{passwordUrl,jdbcType=VARCHAR}, #{pwdResetUrl,jdbcType=VARCHAR}, 
+      #{supplementDocUrl,jdbcType=VARCHAR}, #{identityPhotoUrl,jdbcType=VARCHAR}, #{appConfig,jdbcType=VARCHAR}, 
+      #{url,jdbcType=VARCHAR}, #{smsStatus,jdbcType=INTEGER}, #{xiaomiAppId,jdbcType=VARCHAR}, 
+      #{xiaomiAppSecret,jdbcType=VARCHAR}, #{huaweiAppId,jdbcType=VARCHAR}, #{huaweiAppSecret,jdbcType=VARCHAR}, 
+      #{meizuAppId,jdbcType=VARCHAR}, #{meizuAppSecret,jdbcType=VARCHAR}, #{networkStatus,jdbcType=INTEGER}, 
+      #{addressBook,jdbcType=VARCHAR}, #{corpConfig,jdbcType=LONGVARCHAR}, #{config,jdbcType=LONGVARCHAR}, 
+      #{qrurl,jdbcType=LONGVARCHAR}, #{disclaimer,jdbcType=LONGVARCHAR}, #{authCodeUrl,jdbcType=LONGVARCHAR}, 
+      #{campuscardBgdImgNew,jdbcType=LONGVARCHAR}, #{filterStr,jdbcType=LONGVARCHAR}, 
+      #{memoEx,jdbcType=LONGVARCHAR}, #{corpType,jdbcType=LONGVARCHAR}, #{corpValue,jdbcType=LONGVARCHAR}, 
+      #{configText,jdbcType=LONGVARCHAR}, #{clientConfig,jdbcType=LONGVARCHAR}, #{pointsConfig,jdbcType=LONGVARCHAR}, 
+      #{ipConfig,jdbcType=LONGVARCHAR}, #{remark,jdbcType=LONGVARCHAR}, #{weixinServiceConfig,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.chen.cat.bean.CustomerWithBLOBs">
+    insert into customer
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="customerId != null">
+        customer_id,
+      </if>
+      <if test="corpSyncSecret != null">
+        corp_sync_secret,
+      </if>
+      <if test="customerName != null">
+        customer_name,
+      </if>
+      <if test="domain != null">
+        domain,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="userNumber != null">
+        user_number,
+      </if>
+      <if test="province != null">
+        province,
+      </if>
+      <if test="city != null">
+        city,
+      </if>
+      <if test="customerRoot != null">
+        customer_root,
+      </if>
+      <if test="addTime != null">
+        add_time,
+      </if>
+      <if test="offsetMapY != null">
+        offset_map_y,
+      </if>
+      <if test="offsetMapX != null">
+        offset_map_x,
+      </if>
+      <if test="modifyTime != null">
+        modify_time,
+      </if>
+      <if test="serverNumber != null">
+        server_number,
+      </if>
+      <if test="exportIps != null">
+        export_ips,
+      </if>
+      <if test="pinyin != null">
+        pinyin,
+      </if>
+      <if test="urlCrashUpload != null">
+        url_crash_upload,
+      </if>
+      <if test="urlDownload != null">
+        url_download,
+      </if>
+      <if test="urlMainServer != null">
+        url_main_server,
+      </if>
+      <if test="urlUpload != null">
+        url_upload,
+      </if>
+      <if test="clientNumber != null">
+        client_number,
+      </if>
+      <if test="andUmengAppKey != null">
+        and_umeng_app_key,
+      </if>
+      <if test="andUmengAppSecret != null">
+        and_umeng_app_secret,
+      </if>
+      <if test="andUmengMasterSecret != null">
+        and_umeng_master_secret,
+      </if>
+      <if test="iosUmengAppKey != null">
+        ios_umeng_app_key,
+      </if>
+      <if test="iosUmengAppSecret != null">
+        ios_umeng_app_secret,
+      </if>
+      <if test="iosUmengMasterSecret != null">
+        ios_umeng_master_secret,
+      </if>
+      <if test="configUpdateTime != null">
+        config_update_time,
+      </if>
+      <if test="ldap != null">
+        ldap,
+      </if>
+      <if test="haveldapFlag != null">
+        haveldap_flag,
+      </if>
+      <if test="ldapserver != null">
+        ldapServer,
+      </if>
+      <if test="iconUrl != null">
+        icon_url,
+      </if>
+      <if test="describe != null">
+        describe,
+      </if>
+      <if test="middServer != null">
+        midd_server,
+      </if>
+      <if test="urlMainSerForMs != null">
+        url_main_ser_for_ms,
+      </if>
+      <if test="oauth != null">
+        oAuth,
+      </if>
+      <if test="memo != null">
+        memo,
+      </if>
+      <if test="apiServer != null">
+        api_server,
+      </if>
+      <if test="dataMiddServer != null">
+        data_midd_server,
+      </if>
+      <if test="getuiAppId != null">
+        getui_app_id,
+      </if>
+      <if test="getuiAppKey != null">
+        getui_app_key,
+      </if>
+      <if test="getuiMasterSecret != null">
+        getui_master_secret,
+      </if>
+      <if test="searchPinyin != null">
+        search_pinyin,
+      </if>
+      <if test="schoolNum != null">
+        school_num,
+      </if>
+      <if test="corpid != null">
+        corpid,
+      </if>
+      <if test="corpsecret != null">
+        corpsecret,
+      </if>
+      <if test="agentid != null">
+        agentid,
+      </if>
+      <if test="qqid != null">
+        qqid,
+      </if>
+      <if test="qqsecret != null">
+        qqsecret,
+      </if>
+      <if test="campuscardBgdImg != null">
+        campuscard_bgd_img,
+      </if>
+      <if test="disclaimerFlag != null">
+        disclaimer_flag,
+      </if>
+      <if test="isScores != null">
+        is_scores,
+      </if>
+      <if test="isProbation != null">
+        is_probation,
+      </if>
+      <if test="exField != null">
+        ex_field,
+      </if>
+      <if test="customized != null">
+        customized,
+      </if>
+      <if test="passwordUrl != null">
+        password_url,
+      </if>
+      <if test="pwdResetUrl != null">
+        pwd_reset_url,
+      </if>
+      <if test="supplementDocUrl != null">
+        supplement_doc_url,
+      </if>
+      <if test="identityPhotoUrl != null">
+        identity_photo_url,
+      </if>
+      <if test="appConfig != null">
+        app_config,
+      </if>
+      <if test="url != null">
+        url,
+      </if>
+      <if test="smsStatus != null">
+        sms_status,
+      </if>
+      <if test="xiaomiAppId != null">
+        xiaomi_app_id,
+      </if>
+      <if test="xiaomiAppSecret != null">
+        xiaomi_app_secret,
+      </if>
+      <if test="huaweiAppId != null">
+        huawei_app_id,
+      </if>
+      <if test="huaweiAppSecret != null">
+        huawei_app_secret,
+      </if>
+      <if test="meizuAppId != null">
+        meizu_app_id,
+      </if>
+      <if test="meizuAppSecret != null">
+        meizu_app_secret,
+      </if>
+      <if test="networkStatus != null">
+        network_status,
+      </if>
+      <if test="addressBook != null">
+        address_book,
+      </if>
+      <if test="corpConfig != null">
+        corp_config,
+      </if>
+      <if test="config != null">
+        config,
+      </if>
+      <if test="qrurl != null">
+        QRUrl,
+      </if>
+      <if test="disclaimer != null">
+        disclaimer,
+      </if>
+      <if test="authCodeUrl != null">
+        auth_code_url,
+      </if>
+      <if test="campuscardBgdImgNew != null">
+        campuscard_bgd_img_new,
+      </if>
+      <if test="filterStr != null">
+        filter_str,
+      </if>
+      <if test="memoEx != null">
+        memo_ex,
+      </if>
+      <if test="corpType != null">
+        corp_type,
+      </if>
+      <if test="corpValue != null">
+        corp_value,
+      </if>
+      <if test="configText != null">
+        config_text,
+      </if>
+      <if test="clientConfig != null">
+        client_config,
+      </if>
+      <if test="pointsConfig != null">
+        points_config,
+      </if>
+      <if test="ipConfig != null">
+        ip_config,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="weixinServiceConfig != null">
+        weixin_service_config,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="customerId != null">
+        #{customerId,jdbcType=INTEGER},
+      </if>
+      <if test="corpSyncSecret != null">
+        #{corpSyncSecret,jdbcType=VARCHAR},
+      </if>
+      <if test="customerName != null">
+        #{customerName,jdbcType=VARCHAR},
+      </if>
+      <if test="domain != null">
+        #{domain,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="userNumber != null">
+        #{userNumber,jdbcType=INTEGER},
+      </if>
+      <if test="province != null">
+        #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null">
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="customerRoot != null">
+        #{customerRoot,jdbcType=VARCHAR},
+      </if>
+      <if test="addTime != null">
+        #{addTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="offsetMapY != null">
+        #{offsetMapY,jdbcType=DECIMAL},
+      </if>
+      <if test="offsetMapX != null">
+        #{offsetMapX,jdbcType=DECIMAL},
+      </if>
+      <if test="modifyTime != null">
+        #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="serverNumber != null">
+        #{serverNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="exportIps != null">
+        #{exportIps,jdbcType=VARCHAR},
+      </if>
+      <if test="pinyin != null">
+        #{pinyin,jdbcType=VARCHAR},
+      </if>
+      <if test="urlCrashUpload != null">
+        #{urlCrashUpload,jdbcType=VARCHAR},
+      </if>
+      <if test="urlDownload != null">
+        #{urlDownload,jdbcType=VARCHAR},
+      </if>
+      <if test="urlMainServer != null">
+        #{urlMainServer,jdbcType=VARCHAR},
+      </if>
+      <if test="urlUpload != null">
+        #{urlUpload,jdbcType=VARCHAR},
+      </if>
+      <if test="clientNumber != null">
+        #{clientNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="andUmengAppKey != null">
+        #{andUmengAppKey,jdbcType=VARCHAR},
+      </if>
+      <if test="andUmengAppSecret != null">
+        #{andUmengAppSecret,jdbcType=VARCHAR},
+      </if>
+      <if test="andUmengMasterSecret != null">
+        #{andUmengMasterSecret,jdbcType=VARCHAR},
+      </if>
+      <if test="iosUmengAppKey != null">
+        #{iosUmengAppKey,jdbcType=VARCHAR},
+      </if>
+      <if test="iosUmengAppSecret != null">
+        #{iosUmengAppSecret,jdbcType=VARCHAR},
+      </if>
+      <if test="iosUmengMasterSecret != null">
+        #{iosUmengMasterSecret,jdbcType=VARCHAR},
+      </if>
+      <if test="configUpdateTime != null">
+        #{configUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ldap != null">
+        #{ldap,jdbcType=VARCHAR},
+      </if>
+      <if test="haveldapFlag != null">
+        #{haveldapFlag,jdbcType=INTEGER},
+      </if>
+      <if test="ldapserver != null">
+        #{ldapserver,jdbcType=VARCHAR},
+      </if>
+      <if test="iconUrl != null">
+        #{iconUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="describe != null">
+        #{describe,jdbcType=VARCHAR},
+      </if>
+      <if test="middServer != null">
+        #{middServer,jdbcType=VARCHAR},
+      </if>
+      <if test="urlMainSerForMs != null">
+        #{urlMainSerForMs,jdbcType=VARCHAR},
+      </if>
+      <if test="oauth != null">
+        #{oauth,jdbcType=VARCHAR},
+      </if>
+      <if test="memo != null">
+        #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="apiServer != null">
+        #{apiServer,jdbcType=VARCHAR},
+      </if>
+      <if test="dataMiddServer != null">
+        #{dataMiddServer,jdbcType=VARCHAR},
+      </if>
+      <if test="getuiAppId != null">
+        #{getuiAppId,jdbcType=VARCHAR},
+      </if>
+      <if test="getuiAppKey != null">
+        #{getuiAppKey,jdbcType=VARCHAR},
+      </if>
+      <if test="getuiMasterSecret != null">
+        #{getuiMasterSecret,jdbcType=VARCHAR},
+      </if>
+      <if test="searchPinyin != null">
+        #{searchPinyin,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolNum != null">
+        #{schoolNum,jdbcType=VARCHAR},
+      </if>
+      <if test="corpid != null">
+        #{corpid,jdbcType=VARCHAR},
+      </if>
+      <if test="corpsecret != null">
+        #{corpsecret,jdbcType=VARCHAR},
+      </if>
+      <if test="agentid != null">
+        #{agentid,jdbcType=INTEGER},
+      </if>
+      <if test="qqid != null">
+        #{qqid,jdbcType=VARCHAR},
+      </if>
+      <if test="qqsecret != null">
+        #{qqsecret,jdbcType=VARCHAR},
+      </if>
+      <if test="campuscardBgdImg != null">
+        #{campuscardBgdImg,jdbcType=VARCHAR},
+      </if>
+      <if test="disclaimerFlag != null">
+        #{disclaimerFlag,jdbcType=INTEGER},
+      </if>
+      <if test="isScores != null">
+        #{isScores,jdbcType=INTEGER},
+      </if>
+      <if test="isProbation != null">
+        #{isProbation,jdbcType=INTEGER},
+      </if>
+      <if test="exField != null">
+        #{exField,jdbcType=VARCHAR},
+      </if>
+      <if test="customized != null">
+        #{customized,jdbcType=INTEGER},
+      </if>
+      <if test="passwordUrl != null">
+        #{passwordUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="pwdResetUrl != null">
+        #{pwdResetUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="supplementDocUrl != null">
+        #{supplementDocUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="identityPhotoUrl != null">
+        #{identityPhotoUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="appConfig != null">
+        #{appConfig,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null">
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="smsStatus != null">
+        #{smsStatus,jdbcType=INTEGER},
+      </if>
+      <if test="xiaomiAppId != null">
+        #{xiaomiAppId,jdbcType=VARCHAR},
+      </if>
+      <if test="xiaomiAppSecret != null">
+        #{xiaomiAppSecret,jdbcType=VARCHAR},
+      </if>
+      <if test="huaweiAppId != null">
+        #{huaweiAppId,jdbcType=VARCHAR},
+      </if>
+      <if test="huaweiAppSecret != null">
+        #{huaweiAppSecret,jdbcType=VARCHAR},
+      </if>
+      <if test="meizuAppId != null">
+        #{meizuAppId,jdbcType=VARCHAR},
+      </if>
+      <if test="meizuAppSecret != null">
+        #{meizuAppSecret,jdbcType=VARCHAR},
+      </if>
+      <if test="networkStatus != null">
+        #{networkStatus,jdbcType=INTEGER},
+      </if>
+      <if test="addressBook != null">
+        #{addressBook,jdbcType=VARCHAR},
+      </if>
+      <if test="corpConfig != null">
+        #{corpConfig,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="config != null">
+        #{config,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="qrurl != null">
+        #{qrurl,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="disclaimer != null">
+        #{disclaimer,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="authCodeUrl != null">
+        #{authCodeUrl,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="campuscardBgdImgNew != null">
+        #{campuscardBgdImgNew,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="filterStr != null">
+        #{filterStr,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="memoEx != null">
+        #{memoEx,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="corpType != null">
+        #{corpType,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="corpValue != null">
+        #{corpValue,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="configText != null">
+        #{configText,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="clientConfig != null">
+        #{clientConfig,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="pointsConfig != null">
+        #{pointsConfig,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="ipConfig != null">
+        #{ipConfig,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="weixinServiceConfig != null">
+        #{weixinServiceConfig,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.chen.cat.bean.CustomerWithBLOBs">
+    update customer
+    <set>
+      <if test="corpSyncSecret != null">
+        corp_sync_secret = #{corpSyncSecret,jdbcType=VARCHAR},
+      </if>
+      <if test="customerName != null">
+        customer_name = #{customerName,jdbcType=VARCHAR},
+      </if>
+      <if test="domain != null">
+        domain = #{domain,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="userNumber != null">
+        user_number = #{userNumber,jdbcType=INTEGER},
+      </if>
+      <if test="province != null">
+        province = #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null">
+        city = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="customerRoot != null">
+        customer_root = #{customerRoot,jdbcType=VARCHAR},
+      </if>
+      <if test="addTime != null">
+        add_time = #{addTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="offsetMapY != null">
+        offset_map_y = #{offsetMapY,jdbcType=DECIMAL},
+      </if>
+      <if test="offsetMapX != null">
+        offset_map_x = #{offsetMapX,jdbcType=DECIMAL},
+      </if>
+      <if test="modifyTime != null">
+        modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="serverNumber != null">
+        server_number = #{serverNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="exportIps != null">
+        export_ips = #{exportIps,jdbcType=VARCHAR},
+      </if>
+      <if test="pinyin != null">
+        pinyin = #{pinyin,jdbcType=VARCHAR},
+      </if>
+      <if test="urlCrashUpload != null">
+        url_crash_upload = #{urlCrashUpload,jdbcType=VARCHAR},
+      </if>
+      <if test="urlDownload != null">
+        url_download = #{urlDownload,jdbcType=VARCHAR},
+      </if>
+      <if test="urlMainServer != null">
+        url_main_server = #{urlMainServer,jdbcType=VARCHAR},
+      </if>
+      <if test="urlUpload != null">
+        url_upload = #{urlUpload,jdbcType=VARCHAR},
+      </if>
+      <if test="clientNumber != null">
+        client_number = #{clientNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="andUmengAppKey != null">
+        and_umeng_app_key = #{andUmengAppKey,jdbcType=VARCHAR},
+      </if>
+      <if test="andUmengAppSecret != null">
+        and_umeng_app_secret = #{andUmengAppSecret,jdbcType=VARCHAR},
+      </if>
+      <if test="andUmengMasterSecret != null">
+        and_umeng_master_secret = #{andUmengMasterSecret,jdbcType=VARCHAR},
+      </if>
+      <if test="iosUmengAppKey != null">
+        ios_umeng_app_key = #{iosUmengAppKey,jdbcType=VARCHAR},
+      </if>
+      <if test="iosUmengAppSecret != null">
+        ios_umeng_app_secret = #{iosUmengAppSecret,jdbcType=VARCHAR},
+      </if>
+      <if test="iosUmengMasterSecret != null">
+        ios_umeng_master_secret = #{iosUmengMasterSecret,jdbcType=VARCHAR},
+      </if>
+      <if test="configUpdateTime != null">
+        config_update_time = #{configUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ldap != null">
+        ldap = #{ldap,jdbcType=VARCHAR},
+      </if>
+      <if test="haveldapFlag != null">
+        haveldap_flag = #{haveldapFlag,jdbcType=INTEGER},
+      </if>
+      <if test="ldapserver != null">
+        ldapServer = #{ldapserver,jdbcType=VARCHAR},
+      </if>
+      <if test="iconUrl != null">
+        icon_url = #{iconUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="describe != null">
+        describe = #{describe,jdbcType=VARCHAR},
+      </if>
+      <if test="middServer != null">
+        midd_server = #{middServer,jdbcType=VARCHAR},
+      </if>
+      <if test="urlMainSerForMs != null">
+        url_main_ser_for_ms = #{urlMainSerForMs,jdbcType=VARCHAR},
+      </if>
+      <if test="oauth != null">
+        oAuth = #{oauth,jdbcType=VARCHAR},
+      </if>
+      <if test="memo != null">
+        memo = #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="apiServer != null">
+        api_server = #{apiServer,jdbcType=VARCHAR},
+      </if>
+      <if test="dataMiddServer != null">
+        data_midd_server = #{dataMiddServer,jdbcType=VARCHAR},
+      </if>
+      <if test="getuiAppId != null">
+        getui_app_id = #{getuiAppId,jdbcType=VARCHAR},
+      </if>
+      <if test="getuiAppKey != null">
+        getui_app_key = #{getuiAppKey,jdbcType=VARCHAR},
+      </if>
+      <if test="getuiMasterSecret != null">
+        getui_master_secret = #{getuiMasterSecret,jdbcType=VARCHAR},
+      </if>
+      <if test="searchPinyin != null">
+        search_pinyin = #{searchPinyin,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolNum != null">
+        school_num = #{schoolNum,jdbcType=VARCHAR},
+      </if>
+      <if test="corpid != null">
+        corpid = #{corpid,jdbcType=VARCHAR},
+      </if>
+      <if test="corpsecret != null">
+        corpsecret = #{corpsecret,jdbcType=VARCHAR},
+      </if>
+      <if test="agentid != null">
+        agentid = #{agentid,jdbcType=INTEGER},
+      </if>
+      <if test="qqid != null">
+        qqid = #{qqid,jdbcType=VARCHAR},
+      </if>
+      <if test="qqsecret != null">
+        qqsecret = #{qqsecret,jdbcType=VARCHAR},
+      </if>
+      <if test="campuscardBgdImg != null">
+        campuscard_bgd_img = #{campuscardBgdImg,jdbcType=VARCHAR},
+      </if>
+      <if test="disclaimerFlag != null">
+        disclaimer_flag = #{disclaimerFlag,jdbcType=INTEGER},
+      </if>
+      <if test="isScores != null">
+        is_scores = #{isScores,jdbcType=INTEGER},
+      </if>
+      <if test="isProbation != null">
+        is_probation = #{isProbation,jdbcType=INTEGER},
+      </if>
+      <if test="exField != null">
+        ex_field = #{exField,jdbcType=VARCHAR},
+      </if>
+      <if test="customized != null">
+        customized = #{customized,jdbcType=INTEGER},
+      </if>
+      <if test="passwordUrl != null">
+        password_url = #{passwordUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="pwdResetUrl != null">
+        pwd_reset_url = #{pwdResetUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="supplementDocUrl != null">
+        supplement_doc_url = #{supplementDocUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="identityPhotoUrl != null">
+        identity_photo_url = #{identityPhotoUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="appConfig != null">
+        app_config = #{appConfig,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null">
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="smsStatus != null">
+        sms_status = #{smsStatus,jdbcType=INTEGER},
+      </if>
+      <if test="xiaomiAppId != null">
+        xiaomi_app_id = #{xiaomiAppId,jdbcType=VARCHAR},
+      </if>
+      <if test="xiaomiAppSecret != null">
+        xiaomi_app_secret = #{xiaomiAppSecret,jdbcType=VARCHAR},
+      </if>
+      <if test="huaweiAppId != null">
+        huawei_app_id = #{huaweiAppId,jdbcType=VARCHAR},
+      </if>
+      <if test="huaweiAppSecret != null">
+        huawei_app_secret = #{huaweiAppSecret,jdbcType=VARCHAR},
+      </if>
+      <if test="meizuAppId != null">
+        meizu_app_id = #{meizuAppId,jdbcType=VARCHAR},
+      </if>
+      <if test="meizuAppSecret != null">
+        meizu_app_secret = #{meizuAppSecret,jdbcType=VARCHAR},
+      </if>
+      <if test="networkStatus != null">
+        network_status = #{networkStatus,jdbcType=INTEGER},
+      </if>
+      <if test="addressBook != null">
+        address_book = #{addressBook,jdbcType=VARCHAR},
+      </if>
+      <if test="corpConfig != null">
+        corp_config = #{corpConfig,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="config != null">
+        config = #{config,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="qrurl != null">
+        QRUrl = #{qrurl,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="disclaimer != null">
+        disclaimer = #{disclaimer,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="authCodeUrl != null">
+        auth_code_url = #{authCodeUrl,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="campuscardBgdImgNew != null">
+        campuscard_bgd_img_new = #{campuscardBgdImgNew,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="filterStr != null">
+        filter_str = #{filterStr,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="memoEx != null">
+        memo_ex = #{memoEx,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="corpType != null">
+        corp_type = #{corpType,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="corpValue != null">
+        corp_value = #{corpValue,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="configText != null">
+        config_text = #{configText,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="clientConfig != null">
+        client_config = #{clientConfig,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="pointsConfig != null">
+        points_config = #{pointsConfig,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="ipConfig != null">
+        ip_config = #{ipConfig,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="weixinServiceConfig != null">
+        weixin_service_config = #{weixinServiceConfig,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where customer_id = #{customerId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.chen.cat.bean.CustomerWithBLOBs">
+    update customer
+    set corp_sync_secret = #{corpSyncSecret,jdbcType=VARCHAR},
+      customer_name = #{customerName,jdbcType=VARCHAR},
+      domain = #{domain,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      user_number = #{userNumber,jdbcType=INTEGER},
+      province = #{province,jdbcType=VARCHAR},
+      city = #{city,jdbcType=VARCHAR},
+      customer_root = #{customerRoot,jdbcType=VARCHAR},
+      add_time = #{addTime,jdbcType=TIMESTAMP},
+      offset_map_y = #{offsetMapY,jdbcType=DECIMAL},
+      offset_map_x = #{offsetMapX,jdbcType=DECIMAL},
+      modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      server_number = #{serverNumber,jdbcType=VARCHAR},
+      export_ips = #{exportIps,jdbcType=VARCHAR},
+      pinyin = #{pinyin,jdbcType=VARCHAR},
+      url_crash_upload = #{urlCrashUpload,jdbcType=VARCHAR},
+      url_download = #{urlDownload,jdbcType=VARCHAR},
+      url_main_server = #{urlMainServer,jdbcType=VARCHAR},
+      url_upload = #{urlUpload,jdbcType=VARCHAR},
+      client_number = #{clientNumber,jdbcType=VARCHAR},
+      and_umeng_app_key = #{andUmengAppKey,jdbcType=VARCHAR},
+      and_umeng_app_secret = #{andUmengAppSecret,jdbcType=VARCHAR},
+      and_umeng_master_secret = #{andUmengMasterSecret,jdbcType=VARCHAR},
+      ios_umeng_app_key = #{iosUmengAppKey,jdbcType=VARCHAR},
+      ios_umeng_app_secret = #{iosUmengAppSecret,jdbcType=VARCHAR},
+      ios_umeng_master_secret = #{iosUmengMasterSecret,jdbcType=VARCHAR},
+      config_update_time = #{configUpdateTime,jdbcType=TIMESTAMP},
+      ldap = #{ldap,jdbcType=VARCHAR},
+      haveldap_flag = #{haveldapFlag,jdbcType=INTEGER},
+      ldapServer = #{ldapserver,jdbcType=VARCHAR},
+      icon_url = #{iconUrl,jdbcType=VARCHAR},
+      describe = #{describe,jdbcType=VARCHAR},
+      midd_server = #{middServer,jdbcType=VARCHAR},
+      url_main_ser_for_ms = #{urlMainSerForMs,jdbcType=VARCHAR},
+      oAuth = #{oauth,jdbcType=VARCHAR},
+      memo = #{memo,jdbcType=VARCHAR},
+      api_server = #{apiServer,jdbcType=VARCHAR},
+      data_midd_server = #{dataMiddServer,jdbcType=VARCHAR},
+      getui_app_id = #{getuiAppId,jdbcType=VARCHAR},
+      getui_app_key = #{getuiAppKey,jdbcType=VARCHAR},
+      getui_master_secret = #{getuiMasterSecret,jdbcType=VARCHAR},
+      search_pinyin = #{searchPinyin,jdbcType=VARCHAR},
+      school_num = #{schoolNum,jdbcType=VARCHAR},
+      corpid = #{corpid,jdbcType=VARCHAR},
+      corpsecret = #{corpsecret,jdbcType=VARCHAR},
+      agentid = #{agentid,jdbcType=INTEGER},
+      qqid = #{qqid,jdbcType=VARCHAR},
+      qqsecret = #{qqsecret,jdbcType=VARCHAR},
+      campuscard_bgd_img = #{campuscardBgdImg,jdbcType=VARCHAR},
+      disclaimer_flag = #{disclaimerFlag,jdbcType=INTEGER},
+      is_scores = #{isScores,jdbcType=INTEGER},
+      is_probation = #{isProbation,jdbcType=INTEGER},
+      ex_field = #{exField,jdbcType=VARCHAR},
+      customized = #{customized,jdbcType=INTEGER},
+      password_url = #{passwordUrl,jdbcType=VARCHAR},
+      pwd_reset_url = #{pwdResetUrl,jdbcType=VARCHAR},
+      supplement_doc_url = #{supplementDocUrl,jdbcType=VARCHAR},
+      identity_photo_url = #{identityPhotoUrl,jdbcType=VARCHAR},
+      app_config = #{appConfig,jdbcType=VARCHAR},
+      url = #{url,jdbcType=VARCHAR},
+      sms_status = #{smsStatus,jdbcType=INTEGER},
+      xiaomi_app_id = #{xiaomiAppId,jdbcType=VARCHAR},
+      xiaomi_app_secret = #{xiaomiAppSecret,jdbcType=VARCHAR},
+      huawei_app_id = #{huaweiAppId,jdbcType=VARCHAR},
+      huawei_app_secret = #{huaweiAppSecret,jdbcType=VARCHAR},
+      meizu_app_id = #{meizuAppId,jdbcType=VARCHAR},
+      meizu_app_secret = #{meizuAppSecret,jdbcType=VARCHAR},
+      network_status = #{networkStatus,jdbcType=INTEGER},
+      address_book = #{addressBook,jdbcType=VARCHAR},
+      corp_config = #{corpConfig,jdbcType=LONGVARCHAR},
+      config = #{config,jdbcType=LONGVARCHAR},
+      QRUrl = #{qrurl,jdbcType=LONGVARCHAR},
+      disclaimer = #{disclaimer,jdbcType=LONGVARCHAR},
+      auth_code_url = #{authCodeUrl,jdbcType=LONGVARCHAR},
+      campuscard_bgd_img_new = #{campuscardBgdImgNew,jdbcType=LONGVARCHAR},
+      filter_str = #{filterStr,jdbcType=LONGVARCHAR},
+      memo_ex = #{memoEx,jdbcType=LONGVARCHAR},
+      corp_type = #{corpType,jdbcType=LONGVARCHAR},
+      corp_value = #{corpValue,jdbcType=LONGVARCHAR},
+      config_text = #{configText,jdbcType=LONGVARCHAR},
+      client_config = #{clientConfig,jdbcType=LONGVARCHAR},
+      points_config = #{pointsConfig,jdbcType=LONGVARCHAR},
+      ip_config = #{ipConfig,jdbcType=LONGVARCHAR},
+      remark = #{remark,jdbcType=LONGVARCHAR},
+      weixin_service_config = #{weixinServiceConfig,jdbcType=LONGVARCHAR}
+    where customer_id = #{customerId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.chen.cat.bean.Customer">
+    update customer
+    set corp_sync_secret = #{corpSyncSecret,jdbcType=VARCHAR},
+      customer_name = #{customerName,jdbcType=VARCHAR},
+      domain = #{domain,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      user_number = #{userNumber,jdbcType=INTEGER},
+      province = #{province,jdbcType=VARCHAR},
+      city = #{city,jdbcType=VARCHAR},
+      customer_root = #{customerRoot,jdbcType=VARCHAR},
+      add_time = #{addTime,jdbcType=TIMESTAMP},
+      offset_map_y = #{offsetMapY,jdbcType=DECIMAL},
+      offset_map_x = #{offsetMapX,jdbcType=DECIMAL},
+      modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      server_number = #{serverNumber,jdbcType=VARCHAR},
+      export_ips = #{exportIps,jdbcType=VARCHAR},
+      pinyin = #{pinyin,jdbcType=VARCHAR},
+      url_crash_upload = #{urlCrashUpload,jdbcType=VARCHAR},
+      url_download = #{urlDownload,jdbcType=VARCHAR},
+      url_main_server = #{urlMainServer,jdbcType=VARCHAR},
+      url_upload = #{urlUpload,jdbcType=VARCHAR},
+      client_number = #{clientNumber,jdbcType=VARCHAR},
+      and_umeng_app_key = #{andUmengAppKey,jdbcType=VARCHAR},
+      and_umeng_app_secret = #{andUmengAppSecret,jdbcType=VARCHAR},
+      and_umeng_master_secret = #{andUmengMasterSecret,jdbcType=VARCHAR},
+      ios_umeng_app_key = #{iosUmengAppKey,jdbcType=VARCHAR},
+      ios_umeng_app_secret = #{iosUmengAppSecret,jdbcType=VARCHAR},
+      ios_umeng_master_secret = #{iosUmengMasterSecret,jdbcType=VARCHAR},
+      config_update_time = #{configUpdateTime,jdbcType=TIMESTAMP},
+      ldap = #{ldap,jdbcType=VARCHAR},
+      haveldap_flag = #{haveldapFlag,jdbcType=INTEGER},
+      ldapServer = #{ldapserver,jdbcType=VARCHAR},
+      icon_url = #{iconUrl,jdbcType=VARCHAR},
+      describe = #{describe,jdbcType=VARCHAR},
+      midd_server = #{middServer,jdbcType=VARCHAR},
+      url_main_ser_for_ms = #{urlMainSerForMs,jdbcType=VARCHAR},
+      oAuth = #{oauth,jdbcType=VARCHAR},
+      memo = #{memo,jdbcType=VARCHAR},
+      api_server = #{apiServer,jdbcType=VARCHAR},
+      data_midd_server = #{dataMiddServer,jdbcType=VARCHAR},
+      getui_app_id = #{getuiAppId,jdbcType=VARCHAR},
+      getui_app_key = #{getuiAppKey,jdbcType=VARCHAR},
+      getui_master_secret = #{getuiMasterSecret,jdbcType=VARCHAR},
+      search_pinyin = #{searchPinyin,jdbcType=VARCHAR},
+      school_num = #{schoolNum,jdbcType=VARCHAR},
+      corpid = #{corpid,jdbcType=VARCHAR},
+      corpsecret = #{corpsecret,jdbcType=VARCHAR},
+      agentid = #{agentid,jdbcType=INTEGER},
+      qqid = #{qqid,jdbcType=VARCHAR},
+      qqsecret = #{qqsecret,jdbcType=VARCHAR},
+      campuscard_bgd_img = #{campuscardBgdImg,jdbcType=VARCHAR},
+      disclaimer_flag = #{disclaimerFlag,jdbcType=INTEGER},
+      is_scores = #{isScores,jdbcType=INTEGER},
+      is_probation = #{isProbation,jdbcType=INTEGER},
+      ex_field = #{exField,jdbcType=VARCHAR},
+      customized = #{customized,jdbcType=INTEGER},
+      password_url = #{passwordUrl,jdbcType=VARCHAR},
+      pwd_reset_url = #{pwdResetUrl,jdbcType=VARCHAR},
+      supplement_doc_url = #{supplementDocUrl,jdbcType=VARCHAR},
+      identity_photo_url = #{identityPhotoUrl,jdbcType=VARCHAR},
+      app_config = #{appConfig,jdbcType=VARCHAR},
+      url = #{url,jdbcType=VARCHAR},
+      sms_status = #{smsStatus,jdbcType=INTEGER},
+      xiaomi_app_id = #{xiaomiAppId,jdbcType=VARCHAR},
+      xiaomi_app_secret = #{xiaomiAppSecret,jdbcType=VARCHAR},
+      huawei_app_id = #{huaweiAppId,jdbcType=VARCHAR},
+      huawei_app_secret = #{huaweiAppSecret,jdbcType=VARCHAR},
+      meizu_app_id = #{meizuAppId,jdbcType=VARCHAR},
+      meizu_app_secret = #{meizuAppSecret,jdbcType=VARCHAR},
+      network_status = #{networkStatus,jdbcType=INTEGER},
+      address_book = #{addressBook,jdbcType=VARCHAR}
+    where customer_id = #{customerId,jdbcType=INTEGER}
+  </update>
+
+  <select id="queryCustomers" parameterType="Map" resultMap="BaseResultMap">
+      SELECT <include refid="Base_Column_List"/>
+      FROM customer WHERE 1=1
+  </select>
+</mapper>
