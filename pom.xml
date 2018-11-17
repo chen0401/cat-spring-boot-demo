@@ -65,7 +65,15 @@
             <artifactId>mysql-connector-java</artifactId>
             <scope>5.1.6</scope>
         </dependency>
-	</dependencies>
+
+        <!-- https://mvnrepository.com/artifact/commons-dbcp/commons-dbcp -->
+        <dependency>
+            <groupId>commons-dbcp</groupId>
+            <artifactId>commons-dbcp</artifactId>
+            <version>1.2.2</version>
+        </dependency>
+
+    </dependencies>
 
 	<build>
 		<plugins>

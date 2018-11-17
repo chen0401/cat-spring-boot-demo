@@ -2,7 +2,6 @@ package com.chen.cat.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.chen.cat.bean.Customer;
-import com.chen.cat.bean.CustomerWithBLOBs;
 import com.chen.cat.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,6 +25,11 @@ public class CustomerController {
     {
         JSONObject jsonObject = new JSONObject();
         List<Customer> customers =  customerService.queryCustomers();
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         jsonObject.put("datas",customers);
         return  jsonObject;
     }
