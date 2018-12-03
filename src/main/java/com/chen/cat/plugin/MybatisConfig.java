@@ -15,7 +15,7 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
 import javax.sql.DataSource;
 
-@Configuration
+
 public class MybatisConfig implements EnvironmentAware {
 
     private Environment environment;

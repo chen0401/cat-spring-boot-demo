@@ -25,11 +25,6 @@ public class CustomerController {
     {
         JSONObject jsonObject = new JSONObject();
         List<Customer> customers =  customerService.queryCustomers();
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         jsonObject.put("datas",customers);
         return  jsonObject;
     }
