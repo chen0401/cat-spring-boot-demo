@@ -5,6 +5,8 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import javax.servlet.DispatcherType;
+
 /**
  * Created by zhengwenzhu on 2017/1/17.
  */
@@ -18,6 +20,8 @@ public class CatFilterConfigure {
         registration.setFilter(filter);
         registration.addUrlPatterns("/*");
         registration.setName("cat-filter");
+        registration.setDispatcherTypes(DispatcherType.FORWARD);
+        registration.setDispatcherTypes(DispatcherType.REQUEST);
         registration.setOrder(1);
         return registration;
     }

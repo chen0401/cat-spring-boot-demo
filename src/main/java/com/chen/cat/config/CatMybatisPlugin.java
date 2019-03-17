@@ -4,82 +4,95 @@ import com.alibaba.druid.pool.DruidDataSource;
 import com.dianping.cat.Cat;
 import com.dianping.cat.message.Message;
 import com.dianping.cat.message.Transaction;
-import org.apache.commons.dbcp.BasicDataSource;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.ibatis.datasource.pooled.PooledDataSource;
+import org.apache.ibatis.datasource.unpooled.UnpooledDataSource;
 import org.apache.ibatis.executor.Executor;
-import org.apache.ibatis.mapping.BoundSql;
-import org.apache.ibatis.mapping.MappedStatement;
-import org.apache.ibatis.mapping.ParameterMapping;
-import org.apache.ibatis.mapping.SqlCommandType;
+import org.apache.ibatis.mapping.*;
 import org.apache.ibatis.plugin.*;
 import org.apache.ibatis.reflection.MetaObject;
 import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.type.TypeHandlerRegistry;
-import org.mybatis.spring.transaction.SpringManagedTransaction;
-import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
-import org.springframework.util.ReflectionUtils;
 
+import javax.sql.DataSource;
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
+import java.lang.reflect.InvocationTargetException;
 import java.text.DateFormat;
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+import java.util.Properties;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 
 /**
- * Created by chen on 2018/11/15 11:11.
+ *  1.Cat-Mybatis plugin:  Rewrite on the version of Steven;
+ *  2.Support DruidDataSource,PooledDataSource(mybatis Self-contained data source);
+ * @author zhanzehui(west_20@163.com)
  */
+
 @Intercepts({
         @Signature(method = "query", type = Executor.class, args = {
                 MappedStatement.class, Object.class, RowBounds.class,
-                ResultHandler.class}),
-        @Signature(method = "update", type = Executor.class, args = {MappedStatement.class, Object.class})
+                ResultHandler.class }),
+        @Signature(method = "update", type = Executor.class, args = { MappedStatement.class, Object.class })
 })
 public class CatMybatisPlugin implements Interceptor {
-    private static Log logger = LogFactory.getLog(CatMybatisPlugin.class);
 
-    //缓存，提高性能
-    private static final Map<String, String> sqlURLCache = new ConcurrentHashMap<String, String>(256);
-
-    private static final String EMPTY_CONNECTION = "jdbc:mysql://172.16.90.112:3306/%s?useUnicode=true";
-
+    private static final Pattern PARAMETER_PATTERN = Pattern.compile("\\?");
+    private static final String MYSQL_DEFAULT_URL = "jdbc:mysql://UUUUUKnown:3306/%s?useUnicode=true";
     private Executor target;
 
     @Override
     public Object intercept(Invocation invocation) throws Throwable {
-        MappedStatement mappedStatement = (MappedStatement) invocation.getArgs()[0];
-        //得到类名，方法
-        String[] strArr = mappedStatement.getId().split("\\.");
-        String methodName = strArr[strArr.length - 2] + "." + strArr[strArr.length - 1];
-
+        MappedStatement mappedStatement = this.getStatement(invocation);
+        String          methodName      = this.getMethodName(mappedStatement);
         Transaction t = Cat.newTransaction("SQL", methodName);
 
-        //得到sql语句
-        Object parameter = null;
-        if (invocation.getArgs().length > 1) {
-            parameter = invocation.getArgs()[1];
-        }
-        BoundSql boundSql = mappedStatement.getBoundSql(parameter);
-        Configuration configuration = mappedStatement.getConfiguration();
-        String sql = showSql(configuration, boundSql);
-
-        //获取SQL类型
+        String sql = this.getSql(invocation,mappedStatement);
         SqlCommandType sqlCommandType = mappedStatement.getSqlCommandType();
         Cat.logEvent("SQL.Method", sqlCommandType.name().toLowerCase(), Message.SUCCESS, sql);
 
-        String s = this.getSQLDatabase();
-        Cat.logEvent("SQL.Database", s);
+        String url = this.getSQLDatabaseUrlByStatement(mappedStatement);
+        Cat.logEvent("SQL.Database", url);
 
+        return doFinish(invocation,t);
+    }
+
+    private MappedStatement getStatement(Invocation invocation) {
+        return (MappedStatement)invocation.getArgs()[0];
+    }
+
+    private String getMethodName(MappedStatement mappedStatement) {
+        String[] strArr = mappedStatement.getId().split("\\.");
+        String methodName = strArr[strArr.length - 2] + "." + strArr[strArr.length - 1];
+
+        return methodName;
+    }
+
+    private String getSql(Invocation invocation, MappedStatement mappedStatement) {
+        Object parameter = null;
+        if(invocation.getArgs().length > 1){
+            parameter = invocation.getArgs()[1];
+        }
+
+        BoundSql boundSql = mappedStatement.getBoundSql(parameter);
+        Configuration configuration = mappedStatement.getConfiguration();
+        String sql = sqlResolve(configuration, boundSql);
+
+        return sql;
+    }
+
+    private Object doFinish(Invocation invocation,Transaction t) throws InvocationTargetException, IllegalAccessException {
         Object returnObj = null;
         try {
             returnObj = invocation.proceed();
             t.setStatus(Transaction.SUCCESS);
         } catch (Exception e) {
-            t.setStatus(e);
             Cat.logError(e);
+            throw e;
         } finally {
             t.complete();
         }
@@ -87,122 +100,76 @@ public class CatMybatisPlugin implements Interceptor {
         return returnObj;
     }
 
-    private javax.sql.DataSource getDataSource() {
-        org.apache.ibatis.transaction.Transaction transaction = this.target.getTransaction();
-        if (transaction == null) {
-            logger.error(String.format("Could not find transaction on target [%s]", this.target));
-            return null;
-        }
-        if (transaction instanceof SpringManagedTransaction) {
-            String fieldName = "dataSource";
-            Field field = ReflectionUtils.findField(transaction.getClass(), fieldName, javax.sql.DataSource.class);
 
-            if (field == null) {
-                logger.error(String.format("Could not find field [%s] of type [%s] on target [%s]",
-                        fieldName, javax.sql.DataSource.class, this.target));
-                return null;
-            }
+    private String getSQLDatabaseUrlByStatement(MappedStatement mappedStatement) {
+        String url = null;
+        DataSource dataSource = null;
+        try {
+            Configuration configuration = mappedStatement.getConfiguration();
+            Environment environment = configuration.getEnvironment();
+            dataSource = environment.getDataSource();
 
-            ReflectionUtils.makeAccessible(field);
-            javax.sql.DataSource dataSource = (javax.sql.DataSource) ReflectionUtils.getField(field, transaction);
-            return dataSource;
-        }
+            url = switchDataSource(dataSource);
 
-        logger.error(String.format("---the transaction is not SpringManagedTransaction:%s", transaction.getClass().toString()));
-
-        return null;
-    }
-
-    private String getSqlURL() {
-        javax.sql.DataSource dataSource = this.getDataSource();
-
-        if (dataSource == null) {
-            return null;
-        }
-
-        if (dataSource instanceof AbstractRoutingDataSource) {
-            String methodName = "determineTargetDataSource";
-            Method method = ReflectionUtils.findMethod(AbstractRoutingDataSource.class, methodName);
-
-            if (method == null) {
-                logger.error(String.format("---Could not find method [%s] on target [%s]",
-                        methodName, dataSource));
-                return null;
-            }
-
-            ReflectionUtils.makeAccessible(method);
-            javax.sql.DataSource dataSource1 = (javax.sql.DataSource) ReflectionUtils.invokeMethod(method, dataSource);
-            if (dataSource1 instanceof DruidDataSource) {
-                DruidDataSource druidDataSource = (DruidDataSource) dataSource1;
-                return druidDataSource.getUrl();
-            } else {
-                logger.error("---only surpport DruidDataSource:" + dataSource1.getClass().toString());
-            }
-        } else if (dataSource instanceof BasicDataSource) {
-            return ((BasicDataSource) dataSource).getUrl();
-        }
-        return null;
-    }
-
-    private String getSQLDatabase() {
-//        String dbName = RouteDataSourceContext.getRouteKey();
-        String dbName = null; //根据设置的多数据源修改此处,获取dbname
-        if (dbName == null) {
-            dbName = "whistle";
-        }
-        String url = CatMybatisPlugin.sqlURLCache.get(dbName);
-        if (url != null) {
             return url;
+        } catch (NoSuchFieldException|IllegalAccessException|NullPointerException e) {
+            Cat.logError(e);
         }
 
-        url = this.getSqlURL();//目前监控只支持mysql ,其余数据库需要各自修改监控服务端
-        if (url == null) {
-            url = String.format(EMPTY_CONNECTION, dbName);
+        Cat.logError(new Exception("UnSupport type of DataSource : "+dataSource.getClass().toString()));
+        return MYSQL_DEFAULT_URL;
+    }
+
+    private String switchDataSource(DataSource dataSource) throws NoSuchFieldException, IllegalAccessException {
+        String url = null;
+
+        if(dataSource instanceof DruidDataSource) {
+            url = ((DruidDataSource) dataSource).getUrl();
+        }else if(dataSource instanceof PooledDataSource) {
+            Field dataSource1 = dataSource.getClass().getDeclaredField("dataSource");
+            dataSource1.setAccessible(true);
+            UnpooledDataSource dataSource2 = (UnpooledDataSource)dataSource1.get(dataSource);
+            url =dataSource2.getUrl();
+        }else {
+            //other dataSource expand
         }
-        CatMybatisPlugin.sqlURLCache.put(dbName, url);
+
         return url;
     }
 
-    /**
-     * 解析sql语句
-     *
-     * @param configuration
-     * @param boundSql
-     * @return
-     */
-    public String showSql(Configuration configuration, BoundSql boundSql) {
+    public String sqlResolve(Configuration configuration, BoundSql boundSql) {
         Object parameterObject = boundSql.getParameterObject();
         List<ParameterMapping> parameterMappings = boundSql.getParameterMappings();
         String sql = boundSql.getSql().replaceAll("[\\s]+", " ");
         if (parameterMappings.size() > 0 && parameterObject != null) {
             TypeHandlerRegistry typeHandlerRegistry = configuration.getTypeHandlerRegistry();
             if (typeHandlerRegistry.hasTypeHandler(parameterObject.getClass())) {
-                sql = sql.replaceFirst("\\?", Matcher.quoteReplacement(getParameterValue(parameterObject)));
+                sql = sql.replaceFirst("\\?", Matcher.quoteReplacement(resolveParameterValue(parameterObject)));
 
             } else {
                 MetaObject metaObject = configuration.newMetaObject(parameterObject);
+                Matcher matcher = PARAMETER_PATTERN.matcher(sql);
+                StringBuffer sqlBuffer = new StringBuffer();
                 for (ParameterMapping parameterMapping : parameterMappings) {
                     String propertyName = parameterMapping.getProperty();
+                    Object obj = null;
                     if (metaObject.hasGetter(propertyName)) {
-                        Object obj = metaObject.getValue(propertyName);
-                        sql = sql.replaceFirst("\\?", Matcher.quoteReplacement(getParameterValue(obj)));
+                        obj = metaObject.getValue(propertyName);
                     } else if (boundSql.hasAdditionalParameter(propertyName)) {
-                        Object obj = boundSql.getAdditionalParameter(propertyName);
-                        sql = sql.replaceFirst("\\?", Matcher.quoteReplacement(getParameterValue(obj)));
+                        obj = boundSql.getAdditionalParameter(propertyName);
+                    }
+                    if (matcher.find()) {
+                        matcher.appendReplacement(sqlBuffer, Matcher.quoteReplacement(resolveParameterValue(obj)));
                     }
                 }
+                matcher.appendTail(sqlBuffer);
+                sql = sqlBuffer.toString();
             }
         }
         return sql;
     }
 
-    /**
-     * 参数解析
-     *
-     * @param obj
-     * @return
-     */
-    private String getParameterValue(Object obj) {
+    private String resolveParameterValue(Object obj) {
         String value = null;
         if (obj instanceof String) {
             value = "'" + obj.toString() + "'";
@@ -232,4 +199,5 @@ public class CatMybatisPlugin implements Interceptor {
     @Override
     public void setProperties(Properties properties) {
     }
+
 }
